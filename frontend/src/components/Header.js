@@ -19,6 +19,7 @@ function Header({ setSearch }) {
 
   const logoutHandler = () => {
     dispatch(logout());
+
   };
 
   useEffect(() => {}, [userInfo]);

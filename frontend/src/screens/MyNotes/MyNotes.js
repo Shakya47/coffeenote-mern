@@ -3,7 +3,7 @@ import { Accordion, Badge, Button, Card } from "react-bootstrap";
 import MainScreen from "../../components/MainScreen";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-
+import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteNoteAction, listNotes } from "../../actions/notesActions";
 import Loading from "../../components/Loading";
@@ -15,9 +15,7 @@ function MyNotes({ history, search }) {
   const noteList = useSelector((state) => state.noteList);
   const { loading, error, notes } = noteList;
 
-  // const filteredNotes = notes.filter((note) =>
-  //   note.title.toLowerCase().includes(search.toLowerCase())
-  // );
+  const guestNote = "62e8b5908da8463030c06d26";
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -57,7 +55,6 @@ function MyNotes({ history, search }) {
 
   return (
     <MainScreen title={`Welcome Back ${userInfo && userInfo.name}..`}>
-      {console.log(notes)}
       <Link to="/createnote">
         <Button style={{ marginLeft: 10, marginBottom: 6 }} size="lg">
           Create new Note
@@ -71,10 +68,11 @@ function MyNotes({ history, search }) {
       {loadingDelete && <Loading />}
       {notes &&
         notes
-          .filter((filteredNote) =>
-            filteredNote.title.toLowerCase().includes(search.toLowerCase())
-          )
-          .reverse()
+          .filter((filteredNote) => {
+            return filteredNote.title
+              .toLowerCase()
+              .includes(search.toLowerCase());
+          })
           .map((note) => (
             <Accordion>
               <Card style={{ margin: 10 }} key={note._id}>
@@ -96,12 +94,28 @@ function MyNotes({ history, search }) {
                       eventKey="0"
                     >
                       {note.title}
+                      <Form.Text
+                        className="text-muted mx-1"
+                        style={{ fontSize: "14px", display: "inline-block" }}
+                      >
+                        (Click to expand)
+                      </Form.Text>
                     </Accordion.Toggle>
                   </span>
 
                   <div>
-                    <Button href={`/note/${note._id}`}>Edit</Button>
                     <Button
+                      disabled={
+                        note._id === guestNote ? true : false
+                      }
+                      href={`/note/${note._id}`}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      disabled={
+                        note._id === guestNote ? true : false
+                      }
                       variant="danger"
                       className="mx-2"
                       onClick={() => deleteHandler(note._id)}

@@ -14,7 +14,7 @@ const ProfileScreen = ({ location, history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [picMessage, setPicMessage] = useState();
-
+  const guestId = "62e8b52d8da8463030c06d25";
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -38,9 +38,8 @@ const ProfileScreen = ({ location, history }) => {
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
-      data.append("upload_preset", "notezipper");
-      data.append("cloud_name", "piyushproj");
-      fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
+      data.append("upload_preset", "coffeenote");
+      fetch("https://api.cloudinary.com/v1_1/dhqr0lts7/image/upload", {
         method: "post",
         body: data,
       })
@@ -125,7 +124,7 @@ const ProfileScreen = ({ location, history }) => {
                   custom
                 />
               </Form.Group>
-              <Button type="submit" varient="primary">
+              <Button disabled={userInfo?._id === guestId ? true : false} type="submit" varient="primary">
                 Update
               </Button>
             </Form>

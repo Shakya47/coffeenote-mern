@@ -35,7 +35,7 @@ function LoginScreen({ history }) {
         {loading && <Loading />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Email address<Form.Text className="text-muted" style={{fontSize: "14px"}}>(For guest: guest@coffeenote.com)</Form.Text></Form.Label>
             <Form.Control
               type="email"
               value={email}
@@ -45,7 +45,7 @@ function LoginScreen({ history }) {
           </Form.Group>
 
           <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+            <Form.Label>Password<Form.Text className="text-muted" style={{fontSize: "14px"}}>(For guest: guest123)</Form.Text></Form.Label>
             <Form.Control
               type="password"
               value={password}
